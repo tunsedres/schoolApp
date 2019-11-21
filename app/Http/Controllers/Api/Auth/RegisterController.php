@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\LoginResource;
 use App\Http\Resources\UserResource;
+use App\Notifications\UserRegistered;
 use App\Repositories\UserRepositoryInterface;
+use App\Services\ParentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Client;
@@ -23,7 +26,7 @@ class RegisterController extends Controller
         $this->model = $model;
     }
 
-    public function register(Request $request)
+    public function register(Request $request, ParentService $parentService)
     {
         $this->validate($request, [
             'email' => 'required|email|unique:users',
@@ -33,11 +36,16 @@ class RegisterController extends Controller
 
         $user = $this->model->create($request);
 
+        if($request->json('code'))
+            $parentService->updateStudentParentByCode($user, $request->json('code'));
+
+        $user->notify(new UserRegistered());
+
         $response = $this->makeAuth($request);
 
         if($response->getStatusCode() == 200){
 
-            return new UserResource($user);
+            return new LoginResource($user, $response->getContent());
         }
 
     }

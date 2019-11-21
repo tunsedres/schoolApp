@@ -2,6 +2,7 @@
 
 
 use App\Student;
+use App\User;
 
 class StudentRepository implements StudentRepositoryInterface
 {
@@ -54,5 +55,12 @@ class StudentRepository implements StudentRepositoryInterface
     public function create($data)
     {
         return Student::create($data);
+    }
+
+    public function updateParent($user, $code)
+    {
+        $student = Student::where('code', $code)->firstOrFail();
+        $student->update(['user_id' => $user->id ]);
+        return $student;
     }
 }

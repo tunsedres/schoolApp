@@ -39,7 +39,7 @@ class LoginController extends Controller
         }
 
         return response()->json([
-            'message' => 'Giriş bilgileriniz hatalı'], 400);
+            'message' => 'Giriş bilgileriniz hatalı']);
 
     }
 
