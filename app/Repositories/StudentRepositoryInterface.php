@@ -1,4 +1,4 @@
-<?php
+<?php namespace App\Repositories;
 
 interface StudentRepositoryInterface
 {
@@ -8,7 +8,7 @@ interface StudentRepositoryInterface
      *
      * @param int
      */
-    public function get($post_id);
+    public function get($id);
 
     /**
      * Get's all posts.
@@ -22,7 +22,7 @@ interface StudentRepositoryInterface
      *
      * @param int
      */
-    public function delete($post_id);
+    public function delete($id);
 
     /**
      * Updates a post.
@@ -30,6 +30,6 @@ interface StudentRepositoryInterface
      * @param int
      * @param array
      */
-    public function update($post_id, array $post_data);
+    public function update($id, array $data);
 
 }

@@ -15,7 +15,7 @@ class AdminUserSeeder extends Seeder
         $user = factory(App\User::class)->create();
         $role = factory(App\Role::class)->create();
 
-        Db::table('user_roles')->insert([
+        Db::table('role_user')->insert([
             'user_id' => $user->id,
             'role_id' => $role->id
         ]);

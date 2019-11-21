@@ -19,7 +19,7 @@ class CreateStudentsTable extends Migration
             $table->string('surname');
             $table->string('student_number');
             $table->string('code');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

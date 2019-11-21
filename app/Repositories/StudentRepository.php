@@ -1,20 +1,20 @@
-<?php
+<?php namespace App\Repositories;
 
 
-namespace App\Repositories;
+use App\Student;
 
-
-class StudentRepository implements \StudentRepositoryInterface
+class StudentRepository implements StudentRepositoryInterface
 {
 
     /**
      * Get's a post by it's ID
      *
      * @param int
+     * @return
      */
-    public function get($post_id)
+    public function get($id)
     {
-        // TODO: Implement get() method.
+        return Student::find($id);
     }
 
     /**
@@ -24,7 +24,7 @@ class StudentRepository implements \StudentRepositoryInterface
      */
     public function all()
     {
-        // TODO: Implement all() method.
+        return Student::with('parent')->get();
     }
 
     /**
@@ -32,9 +32,9 @@ class StudentRepository implements \StudentRepositoryInterface
      *
      * @param int
      */
-    public function delete($post_id)
+    public function delete($id)
     {
-        // TODO: Implement delete() method.
+        Student::destroy($id);
     }
 
     /**
@@ -42,9 +42,17 @@ class StudentRepository implements \StudentRepositoryInterface
      *
      * @param int
      * @param array
+     * @return
      */
-    public function update($post_id, array $post_data)
+    public function update($id, array $data)
     {
-        // TODO: Implement update() method.
+        $student = Student::find($id);
+        $student->update($data);
+        return $student;
+    }
+
+    public function create($data)
+    {
+        return Student::create($data);
     }
 }

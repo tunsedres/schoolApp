@@ -1,4 +1,9 @@
 <IfModule mod_rewrite.c>
+
+    <IfModule mod_headers.c>
+        Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, PATCH, DELETE"
+    </IfModule>
+
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>

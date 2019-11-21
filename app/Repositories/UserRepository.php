@@ -1,8 +1,8 @@
-<?php
+<?php namespace App\Repositories;
 
 
-namespace App\Repositories;
-
+use App\User;
+use Illuminate\Http\Request;
 
 class UserRepository implements UserRepositoryInterface
 {
@@ -12,9 +12,14 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param int
      */
-    public function get($post_id)
+    public function get($id)
     {
-        // TODO: Implement get() method.
+        return User::find($id);
+    }
+
+    public function getByEmail($email)
+    {
+        return User::where('email', $email)->firstOrFail();
     }
 
     /**
@@ -24,7 +29,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function all()
     {
-        // TODO: Implement all() method.
+        return User::all();
     }
 
     /**
@@ -32,9 +37,9 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param int
      */
-    public function delete($post_id)
+    public function delete($id)
     {
-        // TODO: Implement delete() method.
+        User::destroy($id);
     }
 
     /**
@@ -42,9 +47,23 @@ class UserRepository implements UserRepositoryInterface
      *
      * @param int
      * @param array
+     * @return
      */
-    public function update($post_id, array $post_data)
+    public function update($id, array $data)
     {
-        // TODO: Implement update() method.
+        $user = auth()->user();
+        $user->update($data);
+        return $user;
+    }
+
+    public function create(Request $request)
+    {
+        $user = User::create([
+            'name' => $request->json('name'),
+            'email'     => $request->json('email'),
+            'password'  => bcrypt($request->json('password'))
+        ]);
+
+        return $user;
     }
 }
