@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\StudentAdded;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\StudentResource;
 use App\Repositories\StudentRepositoryInterface;
@@ -61,6 +62,8 @@ class StudentsController extends Controller
         $request->request->add(['user_id' => auth()->id()]);
 
         $student = $this->model->create( $request->json()->all() );
+
+        event(new StudentAdded($student));
 
         return new StudentResource($student);
     }
